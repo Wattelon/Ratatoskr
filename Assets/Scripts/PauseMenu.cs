@@ -21,6 +21,8 @@ public class PauseMenu : MonoBehaviour
 
     public void MainMenu()
     {
+        MainInstance.Revenue = FindObjectOfType<GoldCounter>().CurrentRevenue;
+        MainInstance.IsGoldUpdateNeeded = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
     }
 

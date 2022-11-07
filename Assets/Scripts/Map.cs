@@ -8,7 +8,7 @@ public class Map : MonoBehaviour
 {
     public void LoadLevel(string levelNumber)
     {
-        MainInstance.levelNumber = Convert.ToInt32(levelNumber);
+        MainInstance.LevelNumber = Convert.ToInt32(levelNumber);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 

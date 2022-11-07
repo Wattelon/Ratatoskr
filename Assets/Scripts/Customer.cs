@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -11,12 +12,15 @@ public class Customer : MonoBehaviour
     [SerializeField] private Vector3 orderOffset;
     [SerializeField] private float targetOffset;
     [SerializeField] private float pathTime;
+    [SerializeField] private float waitingTime;
     
     private GameObject _order;
+    private GoldCounter _counter;
     private int _randomOrder;
     private bool _isOntargetOffset;
     private bool _isOrderTaken;
     private float _runningTime;
+    private float _curWaitingTime;
     private Vector3 _startPos;
 
     
@@ -24,6 +28,7 @@ public class Customer : MonoBehaviour
     private void Start()
     {
         _startPos = transform.position;
+        _counter = FindObjectOfType<GoldCounter>();
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -31,8 +36,11 @@ public class Customer : MonoBehaviour
         if (col.gameObject.GetComponent<SpriteRenderer>().color == _order.GetComponent<SpriteRenderer>().color)
         {
             Destroy(col.gameObject);
+            Destroy(_order);
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
             _isOrderTaken = true;
+            _counter.CurrentRevenue += _randomOrder + 1;
+            _counter.GainRevenue();
             Destroy(gameObject, 2f);
         }
     }
@@ -55,6 +63,19 @@ public class Customer : MonoBehaviour
             }
         }
         
+        if (_isOntargetOffset && !_isOrderTaken)
+        {
+            _curWaitingTime += Time.deltaTime;
+            if (_curWaitingTime > waitingTime)
+            {
+                Destroy(_order);
+                gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                _isOrderTaken = true;
+                Destroy(gameObject, 2f);
+            }
+        }
+
         if (_isOrderTaken && _runningTime / pathTime < math.PI / 2)
         {
             _runningTime += Time.deltaTime;
