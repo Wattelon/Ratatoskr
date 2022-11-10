@@ -9,6 +9,6 @@ public class GoldCounter : MonoBehaviour
 
     public void GainRevenue()
     {
-        gameObject.GetComponent<TextMeshProUGUI>().text = "Revenue: " + CurrentRevenue;
+        gameObject.GetComponent<TextMeshProUGUI>().text = "Прибыль: " + CurrentRevenue;
     }
 }

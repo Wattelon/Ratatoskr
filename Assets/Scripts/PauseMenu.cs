@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     private bool isPaused = false;
+    private int gold;
 
     public void PauseGame()
     {
@@ -21,8 +22,7 @@ public class PauseMenu : MonoBehaviour
 
     public void MainMenu()
     {
-        MainInstance.Revenue = FindObjectOfType<GoldCounter>().CurrentRevenue;
-        MainInstance.IsGoldUpdateNeeded = true;
+        PlayerPrefs.SetInt("gold", PlayerPrefs.GetInt("gold", 0) + FindObjectOfType<GoldCounter>().CurrentRevenue);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
     }
 

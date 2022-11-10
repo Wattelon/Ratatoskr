@@ -6,9 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI _goldCounter;
     private void Start()
     {
-        FindObjectOfType<GoldCounter>().GetComponent<TextMeshProUGUI>().text = MainInstance.Gold.ToString();
+        _goldCounter.text = "Золото: " + PlayerPrefs.GetInt("gold", 0);
     }
 
     public void PlayGame()
