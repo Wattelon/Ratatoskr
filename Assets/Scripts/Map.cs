@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,14 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class Map : MonoBehaviour
 {
-    public void LoadLevel(string levelNumber)
+    public void OnLevelClick()
     {
-        MainInstance.LevelNumber = Convert.ToInt32(levelNumber);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("Game");
     }
 
-    public void MainMenu()
+    public void OnMenuClick()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        SceneManager.LoadScene("Menu");
     }
 }

@@ -5,28 +5,23 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    private bool isPaused = false;
-    private int gold;
-
-    public void PauseGame()
+    public void OnPauseClick()
     {
         Time.timeScale = 0f;
-        isPaused = true;
     }
 
-    public void ResumeGame()
+    public void OnResumeClick()
     {
         Time.timeScale = 1f;
-        isPaused = false;
     }
 
-    public void MainMenu()
+    public void OnMenuClick()
     {
-        PlayerPrefs.SetInt("gold", PlayerPrefs.GetInt("gold", 0) + FindObjectOfType<GoldCounter>().CurrentRevenue);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
+        SceneManager.LoadScene("Menu");
+        Time.timeScale = 1f;
     }
 
-    public void QuitGame()
+    public void OnQuitClick()
     {
         Application.Quit();
     }

@@ -1,13 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+public class CustomerSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject customer;
     [SerializeField] private Vector2 customerSpawnPosition;
-    private GameObject _curCustomer;
 
     void Start()
     {
@@ -22,8 +20,8 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void SpawnCustomer()
+    private void SpawnCustomer()
     {
-        _curCustomer = Instantiate(customer, customerSpawnPosition, Quaternion.identity);
+        Instantiate(customer, customerSpawnPosition, Quaternion.identity);
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,15 +8,16 @@ using Random = UnityEngine.Random;
 public class Customer : MonoBehaviour
 {
     [SerializeField] private GameObject[] orders;
-    [SerializeField] private Vector3 orderOffset;
-    [SerializeField] private float targetOffset;
+    [SerializeField] private Vector3 orderPositionOffset;
+    [SerializeField] private float targetPositionOffset;
     [SerializeField] private float pathTime;
     [SerializeField] private float waitingTime;
-    
+
     private GameObject _order;
-    private GoldCounter _counter;
+    private TextMeshProUGUI _revenueCounter;
+    private int _revenue;
     private int _randomOrder;
-    private bool _isOntargetOffset;
+    private bool _isOnTargetOffset;
     private bool _isOrderTaken;
     private float _runningTime;
     private float _curWaitingTime;
@@ -28,7 +28,7 @@ public class Customer : MonoBehaviour
     private void Start()
     {
         _startPos = transform.position;
-        _counter = FindObjectOfType<GoldCounter>();
+        _revenueCounter = FindObjectOfType<Revenue>().GetComponent<TextMeshProUGUI>();
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -39,31 +39,31 @@ public class Customer : MonoBehaviour
             Destroy(_order);
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
             _isOrderTaken = true;
-            _counter.CurrentRevenue += _randomOrder + 1;
-            _counter.GainRevenue();
+            _revenue += int.Parse(_revenueCounter.text) + _randomOrder + 1;
+            _revenueCounter.text = _revenue.ToString();
             Destroy(gameObject, 2f);
         }
     }
 
     private void Update()
     {
-        if (!_isOntargetOffset)
+        if (!_isOnTargetOffset)
         {
             _runningTime += Time.deltaTime;
             if (_runningTime / pathTime > math.PI / 2)
             {
                 _runningTime = 0;
-                _isOntargetOffset = true;
+                _isOnTargetOffset = true;
                 MakeOrder();
-                transform.position = _startPos + new Vector3(targetOffset, 0);
+                transform.position = _startPos + new Vector3(targetPositionOffset, 0);
             }
             else
             {
-                transform.position = _startPos + new Vector3(targetOffset * math.sin(_runningTime / pathTime), 0);
+                transform.position = _startPos + new Vector3(targetPositionOffset * math.sin(_runningTime / pathTime), 0);
             }
         }
         
-        if (_isOntargetOffset && !_isOrderTaken)
+        if (_isOnTargetOffset && !_isOrderTaken)
         {
             _curWaitingTime += Time.deltaTime;
             if (_curWaitingTime > waitingTime)
@@ -83,13 +83,13 @@ public class Customer : MonoBehaviour
             {
                 _runningTime = math.PI / 2 * pathTime;
             }
-            transform.position = _startPos + new Vector3(targetOffset * math.sin(_runningTime / pathTime) + targetOffset, 0);
+            transform.position = _startPos + new Vector3(targetPositionOffset * math.sin(_runningTime / pathTime) + targetPositionOffset, 0);
         }
     }
 
-    public void MakeOrder()
+    private void MakeOrder()
     {
         _randomOrder = Random.Range(0, orders.Length);
-        _order = Instantiate(orders[_randomOrder], transform.position + orderOffset, Quaternion.identity, transform);
+        _order = Instantiate(orders[_randomOrder], transform.position + orderPositionOffset, Quaternion.identity, transform);
     }
 }

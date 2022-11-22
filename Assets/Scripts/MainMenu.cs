@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,18 +7,19 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _goldCounter;
+    [SerializeField] private TextMeshProUGUI goldCounter;
+
     private void Start()
     {
-        _goldCounter.text = "Золото: " + PlayerPrefs.GetInt("gold", 0);
+        goldCounter.text = PlayerPrefs.GetInt("gold", 0).ToString();
     }
 
-    public void PlayGame()
+    public void OnPlayClick()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("Map");
     }
 
-    public void QuitGame()
+    public void OnQuitClick()
     {
         Application.Quit();
     }
