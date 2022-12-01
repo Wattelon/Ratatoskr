@@ -132,7 +132,7 @@ MonoBehaviour:
   orderPositionOffset: {x: 1, y: 1, z: 0}
   targetPositionOffset: -15
   pathTime: 1
-  waitingTime: 5
+  waitingTime: 10
 --- !u!50 &-5625087158913689236
 Rigidbody2D:
   serializedVersion: 4

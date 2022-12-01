@@ -36,12 +36,26 @@ public class Customer : MonoBehaviour
     {
         if (col.gameObject.GetComponent<SpriteRenderer>().color == _order.GetComponent<SpriteRenderer>().color)
         {
+            if (col.gameObject.CompareTag("Raw") || col.gameObject.CompareTag("Burned"))
+            {
+                gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            }
+            else if(col.gameObject.CompareTag("Ready"))
+            {
+                _revenue += int.Parse(_revenueCounter.text) + _randomOrder + 1;
+                _revenueCounter.text = _revenue.ToString();
+                gameObject.GetComponent<SpriteRenderer>().color = Color.yellow;
+            }
+            else if(col.gameObject.CompareTag("Perfect"))
+            {
+                _revenue += int.Parse(_revenueCounter.text) + (_randomOrder + 1) * 2;
+                _revenueCounter.text = _revenue.ToString();
+                gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+            }
             Destroy(col.gameObject);
             Destroy(_order);
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
             _isOrderTaken = true;
-            _revenue += int.Parse(_revenueCounter.text) + _randomOrder + 1;
-            _revenueCounter.text = _revenue.ToString();
             Destroy(gameObject, 2f);
         }
     }

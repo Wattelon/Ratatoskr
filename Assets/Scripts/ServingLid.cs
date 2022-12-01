@@ -1,18 +1,20 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class ServingLid : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     private Canvas _canvas;
     private CanvasGroup _canvasGroup;
     private RectTransform _rectTransform;
+    private Vector3 _startPosition;
+    private bool _isServing;
 
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
+        _startPosition = _rectTransform.position;
         _canvasGroup = GetComponent<CanvasGroup>();
         
     }
@@ -36,7 +38,21 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     public void OnEndDrag(PointerEventData eventData)
     {
         _canvasGroup.blocksRaycasts = true;
-        _rectTransform.position = transform.parent.position;
+        if (_isServing)
+        {
+            transform.parent = transform.parent.parent;
+            _rectTransform.position = _startPosition;
+            _isServing = false;
+        }
+        else if (transform.parent.TryGetComponent(out ServingBoard _servingBoard))
+        {
+            _rectTransform.position = transform.parent.position;
+            _isServing = true;
+        }
+        else
+        {
+            _rectTransform.position = _startPosition;
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
