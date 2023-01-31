@@ -6,10 +6,6 @@ TagManager:
   tags:
   - GoldCounter
   - Cooker
-  - Raw
-  - Ready
-  - Perfect
-  - Burned
   - ServingBoard
   layers:
   - Default
