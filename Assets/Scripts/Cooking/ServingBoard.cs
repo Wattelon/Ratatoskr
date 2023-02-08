@@ -14,7 +14,7 @@ public class ServingBoard : MonoBehaviour, IDropHandler
         if (_isLidOnBoard && !GetComponentInChildren(typeof(ServingLid)))
         {
             _isLidOnBoard = false;
-            gameObject.GetComponent<VerticalLayoutGroup>().enabled = true;
+            gameObject.GetComponent<HorizontalLayoutGroup>().enabled = true;
         }
         if (_isDishOnBoard && !GetComponentInChildren(typeof(DishMaking)))
         {
@@ -30,7 +30,7 @@ public class ServingBoard : MonoBehaviour, IDropHandler
         }
         if (eventData.pointerDrag.TryGetComponent(out ServingLid servingLid))
         {
-            gameObject.GetComponent<VerticalLayoutGroup>().enabled = false;
+            gameObject.GetComponent<HorizontalLayoutGroup>().enabled = false;
             if (!_isLidOnBoard && !_isDishOnBoard && transform.GetComponentsInChildren<Food>().Length > 1)
             {
                 GameObject dish = Instantiate(dishTemplate, transform);

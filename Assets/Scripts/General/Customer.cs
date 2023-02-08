@@ -1,16 +1,16 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Customer : MonoBehaviour
-{ 
-    [SerializeField] private GameObject order;
+public class Customer : MonoBehaviour, IDropHandler
+{
+    [SerializeField] private GameObject orderPrefab;
     [SerializeField] private Vector3 orderPositionOffset;
     [SerializeField] private float waitingTime;
 
     private Image _image;
-    private BoxCollider2D _boxCollider2D;
     private GameObject _currentOrder;
     private TextMeshProUGUI _revenueCounter;
     private int _revenue;
@@ -20,14 +20,18 @@ public class Customer : MonoBehaviour
     private float _runningTime;
     private float _curWaitingTime;
 
+    public CustomerSO CurCustomer;
+    public FoodSO CurOrder { get; private set; }
+
     private void Awake()
     {
         _image = gameObject.GetComponent<Image>();
-        _boxCollider2D = gameObject.GetComponent<BoxCollider2D>();
     }
 
     private void Start()
     {
+        CurOrder = CurCustomer.Order;
+        _image.sprite = CurCustomer.CustomerSprite;
         _revenueCounter = FindObjectOfType<Revenue>().GetComponent<TextMeshProUGUI>();
         transform.DOMoveX(transform.parent.position.x, 2);
     }
@@ -53,26 +57,12 @@ public class Customer : MonoBehaviour
     
     private void MakeOrder()
     {
-        _currentOrder = Instantiate(order, transform.position + orderPositionOffset, Quaternion.identity, transform);
-    }
-    
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.TryGetComponent(out Food food))
-        {
-            AccessFood(food);
-        }
-        else
-        {
-            _image.color = Color.red;
-            Destroy(col.gameObject);
-            Leave();
-        }
+        _currentOrder = Instantiate(orderPrefab, transform.position + orderPositionOffset, Quaternion.identity, transform);
     }
 
     private void AccessFood(Food food)
     {
-        if (food.FoodType == _currentOrder.GetComponent<Order>().OrderFoodType)
+        if (food.FoodType == CurOrder.FoodType)
         {
             if (food.FoodProcessing is Processing.Raw or Processing.Burned)
             {
@@ -106,9 +96,16 @@ public class Customer : MonoBehaviour
     private void Leave()
     {
         Destroy(_currentOrder);
-        _boxCollider2D.enabled = false;
         _isOrderTaken = true;
         transform.DOMoveX(-100, 2f);
         Destroy(gameObject, 2f);
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        if (eventData.pointerDrag.TryGetComponent(out Food food))
+        {
+            AccessFood(food);
+        }
     }
 }

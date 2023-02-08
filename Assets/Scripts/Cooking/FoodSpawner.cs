@@ -2,12 +2,16 @@ using UnityEngine;
 
 public class FoodSpawner : MonoBehaviour
 {
-    [SerializeField] private Food foodToSpawn;
+    [SerializeField] private Food foodPrefab;
+    [SerializeField] private FoodSO foodTypeToSpawn;
+
+    public FoodSO FoodTypeToSpawn => foodTypeToSpawn;
+    
     private void FixedUpdate()
     {
-        if (transform.childCount == 0)
+        if (!transform.GetComponentInChildren(typeof(Food)))
         {
-            Instantiate(foodToSpawn, transform);
+            Instantiate(foodPrefab, transform);
         }
     }
 }

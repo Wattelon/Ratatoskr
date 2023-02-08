@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bread
   m_EditorClassIdentifier: 
   foodType: 1
-  icon: {fileID: 21300000, guid: 50b7a649281547e4eb7e200498d5486a, type: 3}
+  icon: {fileID: 21300000, guid: 65be874694e5134448c23302f999a6a5, type: 3}
   price: 1
   maxCookingTime: 5
   heatTreatable: 1

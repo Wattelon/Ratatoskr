@@ -6,6 +6,8 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     private Canvas _canvas;
     private CanvasGroup _canvasGroup;
     private RectTransform _rectTransform;
+    private Transform _parent;
+    private Vector3 _startingPosition;
 
     private void Awake()
     {
@@ -20,8 +22,9 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        _parent = transform.parent;
+        _startingPosition = transform.position;
         _canvasGroup.blocksRaycasts = false;
-        
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -32,6 +35,13 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     public void OnEndDrag(PointerEventData eventData)
     {
         _canvasGroup.blocksRaycasts = true;
-        _rectTransform.position = transform.parent.position;
+        if (transform.parent != _parent)
+        {
+            _rectTransform.position = transform.parent.position;
+        }
+        else
+        {
+            _rectTransform.position = _startingPosition;
+        }
     }
 }

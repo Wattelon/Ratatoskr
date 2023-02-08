@@ -30,8 +30,9 @@ public class Food : MonoBehaviour
             FoodProcessing = dishMaking.FoodProcessing;
             _image.color = Color.Lerp(_image.color, Color.black, (float)FoodProcessing / 4);
         }
-        else
+        else if (transform.parent.TryGetComponent(out FoodSpawner foodSpawner))
         {
+            food = foodSpawner.FoodTypeToSpawn;
             _initialColor = _image.color;
         }
         FoodType = food.FoodType;
@@ -43,7 +44,7 @@ public class Food : MonoBehaviour
 
     private void Update()
     {
-        if (HeatTreatable && transform.parent.TryGetComponent(out Cooker cooker) && _canvasGroup.blocksRaycasts)
+        if (HeatTreatable && transform.parent.TryGetComponent(out Cooker _) && _canvasGroup.blocksRaycasts)
         {
             _cookingTime += Time.deltaTime;
             if (_cookingTime >= _maxCookingTime * 0.2f && _cookingTime < _maxCookingTime * 0.4f)

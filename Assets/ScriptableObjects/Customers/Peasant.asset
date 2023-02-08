@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db72cc004ff6105428d6e476bb7b5003, type: 3}
+  m_Name: Peasant
+  m_EditorClassIdentifier: 
+  possibleOrders:
+  - {fileID: 11400000, guid: 782b42715b4c0964ca4f8878aefaeb66, type: 2}
+  - {fileID: 11400000, guid: 79f8a56723a107d4593733babe40cff7, type: 2}
+  - {fileID: 11400000, guid: 2dcac40f38f33c64bb0a07adf648806a, type: 2}
+  appearance:
+  - {fileID: 21300000, guid: df3bf8e4dcadfd744ba9acfed25a9500, type: 3}
+  - {fileID: 21300000, guid: e1e407be0ff012b48bf5af169b6499cb, type: 3}
+  - {fileID: 21300000, guid: 90a2c703d986dc7408bdd80acd94e9dc, type: 3}

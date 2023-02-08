@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Hamburger
   m_EditorClassIdentifier: 
   foodType: 3
-  icon: {fileID: 21300000, guid: bb8831a84bcc4d94986511f118a39d73, type: 3}
+  icon: {fileID: 21300000, guid: f5fb22acc51a83e4fa752d5ed0600f33, type: 3}
   price: 10
   maxCookingTime: 1
   heatTreatable: 0

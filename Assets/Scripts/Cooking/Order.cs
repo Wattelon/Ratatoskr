@@ -1,19 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 public class Order : MonoBehaviour
 {
-    [SerializeField] private FoodSO[] foods;
-
-    private int _orderIndex;
-
+    private FoodSO food;
+    
     public FoodType OrderFoodType { get; private set; }
 
-    private void Awake()
+    private void Start()
     {
-        _orderIndex = Random.Range(0, foods.Length);
-        OrderFoodType = foods[_orderIndex].FoodType;
-        GetComponent<Image>().sprite = foods[_orderIndex].Icon;
+        food = transform.parent.parent.GetComponent<Customer>().CurOrder;
+        OrderFoodType = food.FoodType;
+        GetComponent<Image>().sprite = food.Icon;
     }
 }
