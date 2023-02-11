@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour
+public class GameMenu : MonoBehaviour
 {
     public void OnPauseClick()
     {
@@ -17,6 +17,11 @@ public class PauseMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Menu");
         Time.timeScale = 1f;
+    }
+
+    public void OnMapClick()
+    {
+        SceneManager.LoadScene("Map");
     }
 
     public void OnQuitClick()

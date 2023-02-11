@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Hamburger
   m_EditorClassIdentifier: 
   dishType: {fileID: 11400000, guid: 25352b6434beb244b8e02d380b2dc9cd, type: 2}
-  ingredientsType: 0000000001000000
+  ingredientsType: 000000000100000002000000

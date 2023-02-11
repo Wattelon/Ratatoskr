@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Map : MonoBehaviour
+public class ButtonsOperations : MonoBehaviour
 {
     public void OnLevelClick()
     {
