@@ -54,6 +54,10 @@ MonoBehaviour:
   orderPrefab: {fileID: 3195600130905693278, guid: 69f51a723251dec41bee60bbfa4ecac7, type: 3}
   orderPositionOffset: {x: 100, y: 200, z: 0}
   waitingTime: 10
+  reactions:
+  - "\u0423\u0436\u0430\u0441\u043D\u043E"
+  - "\u041F\u0440\u043E\u0449\u0430\u0439"
+  - "\u0412\u043A\u0443\u0441\u043D\u043E!"
   CurCustomer: {fileID: 0}
 --- !u!222 &3359096706963628
 CanvasRenderer:

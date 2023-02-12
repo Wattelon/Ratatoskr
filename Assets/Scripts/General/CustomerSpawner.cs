@@ -1,12 +1,15 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CustomerSpawner : MonoBehaviour
 {
     [SerializeField] private LevelsSO levels;
     [SerializeField] private GameObject customer;
     [SerializeField] private new Camera camera;
-    [SerializeField] private GameObject endingScreen;
+    [SerializeField] private LevelEnd levelEnd;
 
     private List<CustomerSO> _possibleCustomers = new List<CustomerSO>();
     private Vector3 _customerSpawnPosition;
@@ -27,11 +30,7 @@ public class CustomerSpawner : MonoBehaviour
         }
         else if (transform.childCount == 0 && _possibleCustomers.Count == 0)
         {
-            if (_levelID == LevelTracker.LevelsPassed)
-            {
-                PlayerPrefs.SetInt("levelsPassed", LevelTracker.LevelsPassed + 1);
-            }
-            endingScreen.SetActive(true);
+            levelEnd.EndLevel();
         }
     }
 

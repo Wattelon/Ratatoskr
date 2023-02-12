@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foodType: 4
   icon: {fileID: 21300000, guid: 35776f600f2599143853b3270fde11d9, type: 3}
-  price: 1
+  price: 3
   maxCookingTime: 1
   heatTreatable: 0

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -9,10 +10,11 @@ public class Customer : MonoBehaviour, IDropHandler
     [SerializeField] private GameObject orderPrefab;
     [SerializeField] private Vector3 orderPositionOffset;
     [SerializeField] private float waitingTime;
+    [SerializeField] private List<string> reactions;
 
     private Image _image;
     private GameObject _currentOrder;
-    private TextMeshProUGUI _revenueCounter;
+    private Revenue _revenueCounter;
     private int _revenue;
     private int _orderIndex;
     private bool _isOnTargetOffset;
@@ -31,8 +33,9 @@ public class Customer : MonoBehaviour, IDropHandler
     private void Start()
     {
         CurOrder = CurCustomer.Order;
+        transform.parent.GetComponent<LevelEnd>().AddMaxGain(CurOrder.Price);
         _image.sprite = CurCustomer.CustomerSprite;
-        _revenueCounter = FindObjectOfType<Revenue>().GetComponent<TextMeshProUGUI>();
+        _revenueCounter = FindObjectOfType<Revenue>();
         transform.DOMoveX(transform.parent.position.x, 2);
     }
 
@@ -49,8 +52,8 @@ public class Customer : MonoBehaviour, IDropHandler
             _curWaitingTime += Time.deltaTime;
             if (_curWaitingTime > waitingTime)
             {
-                _image.color = Color.red;
-                Leave();
+                _image.raycastTarget = false;
+                Leave(Reaction.Bad, 0);
             }
         }
     }
@@ -60,44 +63,39 @@ public class Customer : MonoBehaviour, IDropHandler
         _currentOrder = Instantiate(orderPrefab, transform.position + orderPositionOffset, Quaternion.identity, transform);
     }
 
-    private void AccessFood(Food food)
+    private void AssessFood(Food food)
     {
+        _image.raycastTarget = false;
         if (food.FoodType == CurOrder.FoodType)
         {
             if (food.FoodProcessing is Processing.Raw or Processing.Burned)
             {
-                _image.color = Color.red;
+                Leave(Reaction.Bad, food.Price);
             }
             else if (food.FoodProcessing == Processing.Cooked)
             {
-                _revenue += int.Parse(_revenueCounter.text) + food.Price;
-                _revenueCounter.text = _revenue.ToString();
-                _image.color = Color.yellow;
+                Leave(Reaction.Good, food.Price);
             }
             else if (food.FoodProcessing == Processing.Perfect)
             {
-                _revenue += int.Parse(_revenueCounter.text) + food.Price * 2;
-                _revenueCounter.text = _revenue.ToString();
-                _image.color = Color.green;
+                Leave(Reaction.Perfect, food.Price);
             }
-
             Destroy(food.gameObject);
-            Destroy(_currentOrder);
-            Leave();
         }
         else
         {
-            _image.color = Color.red;
             Destroy(food.gameObject);
-            Leave();
+            Leave(Reaction.Bad, food.Price);
         }
     }
 
-    private void Leave()
+    private void Leave(Reaction reaction, int price)
     {
-        Destroy(_currentOrder);
+        _currentOrder.transform.GetChild(0).GetComponent<Image>().enabled = false;
+        _revenueCounter.EarnGold(price * (int)reaction);
+        _currentOrder.GetComponentInChildren<TextMeshProUGUI>().text = reactions[(int)reaction];
         _isOrderTaken = true;
-        transform.DOMoveX(-100, 2f);
+        transform.DOMoveX(-200, 2f);
         Destroy(gameObject, 2f);
     }
 
@@ -105,7 +103,7 @@ public class Customer : MonoBehaviour, IDropHandler
     {
         if (eventData.pointerDrag.TryGetComponent(out Food food))
         {
-            AccessFood(food);
+            AssessFood(food);
         }
     }
 }
