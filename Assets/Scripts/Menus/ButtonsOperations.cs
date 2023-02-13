@@ -1,11 +1,18 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ButtonsOperations : MonoBehaviour
 {
-    [SerializeField] private Animator fadeAnimator;
-    
+    [SerializeField] private Animator fadeOut;
+    [SerializeField] private Animator fadeIn;
+
+    private void Start()
+    {
+        fadeIn.enabled = true;
+    }
+
     public void OnLevelClick()
     {
         StartCoroutine(FadeOut("Game"));
@@ -18,7 +25,7 @@ public class ButtonsOperations : MonoBehaviour
     
     private IEnumerator FadeOut(string scene)
     {
-        fadeAnimator.SetBool("isExitingScene", true);
+        fadeOut.enabled = true;
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(scene);
     }

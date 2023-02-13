@@ -2,16 +2,19 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI goldCounter;
     [SerializeField] private GameObject settingsMenu;
-    [SerializeField] private Animator fadeAnimator;
+    [SerializeField] private Animator fadeOut;
+    [SerializeField] private Animator fadeIn;
 
     private void Start()
     {
         goldCounter.text = PlayerPrefs.GetInt("gold", 0).ToString();
+        fadeIn.enabled = true;
     }
 
     public void OnPlayClick()
@@ -32,7 +35,7 @@ public class MainMenu : MonoBehaviour
 
     private IEnumerator FadeOut(string scene)
     {
-        fadeAnimator.SetBool("isExitingScene", true);
+        fadeOut.enabled = true;
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(scene);
     }

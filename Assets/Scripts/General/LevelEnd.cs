@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -52,7 +51,14 @@ public class LevelEnd : MonoBehaviour
         {
             PlayerPrefs.SetInt("levelsPassed", LevelTracker.LevelID + 1);
         }
+
+        string levelKey = LevelTracker.LevelID.ToString();
         
+        if (PlayerPrefs.HasKey(levelKey) && stars > PlayerPrefs.GetInt(levelKey) || !PlayerPrefs.HasKey(levelKey))
+        {
+            PlayerPrefs.SetInt(LevelTracker.LevelID.ToString(), stars);
+        }
+
         performanceVisualizer.sprite = performanceTriskelions[stars];
         endingTitle.text = performancePhrases[stars];
     }

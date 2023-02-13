@@ -8,9 +8,9 @@ using UnityEngine.UI;
 public class Customer : MonoBehaviour, IDropHandler
 {
     [SerializeField] private GameObject orderPrefab;
-    [SerializeField] private Vector3 orderPositionOffset;
     [SerializeField] private float waitingTime;
     [SerializeField] private List<string> reactions;
+    [SerializeField] private List<Color> orderBubbleColors;
 
     private Image _image;
     private GameObject _currentOrder;
@@ -60,7 +60,8 @@ public class Customer : MonoBehaviour, IDropHandler
     
     private void MakeOrder()
     {
-        _currentOrder = Instantiate(orderPrefab, transform.position + orderPositionOffset, Quaternion.identity, transform);
+        _currentOrder = Instantiate(orderPrefab, transform);
+        _currentOrder.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
     }
 
     private void AssessFood(Food food)
@@ -91,11 +92,12 @@ public class Customer : MonoBehaviour, IDropHandler
 
     private void Leave(Reaction reaction, int price)
     {
+        _currentOrder.GetComponent<Image>().color = orderBubbleColors[(int)reaction];
         _currentOrder.transform.GetChild(0).GetComponent<Image>().enabled = false;
         _revenueCounter.EarnGold(price * (int)reaction);
         _currentOrder.GetComponentInChildren<TextMeshProUGUI>().text = reactions[(int)reaction];
         _isOrderTaken = true;
-        transform.DOMoveX(-200, 2f);
+        transform.DOMoveX(-300, 1.99f);
         Destroy(gameObject, 2f);
     }
 

@@ -3,10 +3,10 @@ using UnityEngine.Audio;
 
 public class VolumeSlider : MonoBehaviour
 {
-    [SerializeField] private AudioMixer audio;
+    [SerializeField] private AudioMixer mixer;
     
     public void OnValueChanged(float value)
     {
-        audio.SetFloat("Volume", value);
+        mixer.SetFloat("Volume", value);
     }
 }

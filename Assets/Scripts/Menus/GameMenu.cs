@@ -4,8 +4,14 @@ using UnityEngine.SceneManagement;
 
 public class GameMenu : MonoBehaviour
 {
-    [SerializeField] private Animator fadeAnimator;
-    
+    [SerializeField] private Animator fadeOut;
+    [SerializeField] private Animator fadeIn;
+
+    private void Start()
+    {
+        fadeIn.enabled = true;
+    }
+
     public void OnPauseClick()
     {
         Time.timeScale = 0f;
@@ -25,6 +31,7 @@ public class GameMenu : MonoBehaviour
     public void OnMapClick()
     {
         StartCoroutine(FadeOut("Map"));
+        Time.timeScale = 1f;
     }
 
     public void OnQuitClick()
@@ -34,7 +41,7 @@ public class GameMenu : MonoBehaviour
     
     private IEnumerator FadeOut(string scene)
     {
-        fadeAnimator.SetBool("isExitingScene", true);
+        fadeOut.enabled = true;
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(scene);
     }
