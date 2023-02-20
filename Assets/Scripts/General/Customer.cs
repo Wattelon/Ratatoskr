@@ -69,15 +69,15 @@ public class Customer : MonoBehaviour, IDropHandler
         _image.raycastTarget = false;
         if (food.FoodType == CurOrder.FoodType)
         {
-            if (food.FoodProcessing is Processing.Raw or Processing.Burned)
+            if (food.FoodHeatTreating is HeatTreating.Raw or HeatTreating.Burned)
             {
                 Leave(Reaction.Bad, food.Price);
             }
-            else if (food.FoodProcessing == Processing.Cooked)
+            else if (food.FoodHeatTreating == HeatTreating.Cooked)
             {
                 Leave(Reaction.Good, food.Price);
             }
-            else if (food.FoodProcessing == Processing.Perfect)
+            else if (food.FoodHeatTreating == HeatTreating.Perfect)
             {
                 Leave(Reaction.Perfect, food.Price);
             }

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65ef9a85234049d47b2e040c2c2f2a86, type: 3}
-  m_Name: Hamburger
+  m_Name: Sandwich
   m_EditorClassIdentifier: 
-  dishType: {fileID: 11400000, guid: 25352b6434beb244b8e02d380b2dc9cd, type: 2}
+  dishType: {fileID: 11400000, guid: b28186813dcf87d499f44b3cd59513a8, type: 2}
   ingredients:
   - ingredientType: 1
     heatProcessing: 0
-    cutProcessing: 0
+    cutProcessing: 1
   - ingredientType: 0
-    heatProcessing: 1
+    heatProcessing: 0
     cutProcessing: 0

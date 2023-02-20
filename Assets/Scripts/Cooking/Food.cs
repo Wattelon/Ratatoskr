@@ -7,14 +7,18 @@ public class Food : MonoBehaviour
 
     public FoodType FoodType { get; private set; }
     public int Price { get; private set; }
-    public Processing FoodProcessing { get; private set; } = Processing.Raw;
+    public HeatTreating FoodHeatTreating { get; private set; } = HeatTreating.Raw;
     public bool HeatTreatable { get; private set; }
+    public CutTreating FoodCutTreating { get; private set; } = CutTreating.Intact;
+    public bool Cutable { get; private set;  }
 
     private Image _image;
     private CanvasGroup _canvasGroup;
     private Color _initialColor;
     private float _maxCookingTime;
     private float _cookingTime;
+    private float _neededCuts;
+    private float _currentCuts;
 
     private void Awake()
     {
@@ -27,8 +31,8 @@ public class Food : MonoBehaviour
         if (gameObject.TryGetComponent(out DishMaking dishMaking))
         {
             food = dishMaking.DishType;
-            FoodProcessing = dishMaking.FoodProcessing;
-            _image.color = Color.Lerp(_image.color, Color.black, (float)FoodProcessing / 4);
+            FoodHeatTreating = dishMaking.FoodHeatTreating;
+            _image.color = Color.Lerp(_image.color, Color.black, (float)FoodHeatTreating / 4);
         }
         else if (transform.parent.TryGetComponent(out FoodSpawner foodSpawner))
         {
@@ -38,8 +42,10 @@ public class Food : MonoBehaviour
         FoodType = food.FoodType;
         Price = food.Price;
         _maxCookingTime = food.MaxCookingTime;
+        _neededCuts = food.NeededCuts;
         _image.sprite = food.Icon;
         HeatTreatable = food.HeatTreatable;
+        Cutable = food.Cutable;
     }
 
     private void Update()
@@ -49,21 +55,31 @@ public class Food : MonoBehaviour
             _cookingTime += Time.deltaTime;
             if (_cookingTime >= _maxCookingTime * 0.2f && _cookingTime < _maxCookingTime * 0.4f)
             {
-                FoodProcessing = Processing.Cooked;
+                FoodHeatTreating = HeatTreating.Cooked;
             }
             else if (_cookingTime >= _maxCookingTime * 0.4f && _cookingTime < _maxCookingTime * 0.6f)
             {
-                FoodProcessing = Processing.Perfect;
+                FoodHeatTreating = HeatTreating.Perfect;
             }
             else if(_cookingTime >= _maxCookingTime * 0.6f && _cookingTime <= _maxCookingTime)
             {
-                FoodProcessing = Processing.Cooked;
+                FoodHeatTreating = HeatTreating.Cooked;
             }
             else if(_cookingTime > _maxCookingTime)
             {
-                FoodProcessing = Processing.Burned;
+                FoodHeatTreating = HeatTreating.Burned;
             }
             _image.color = Color.Lerp(_initialColor, Color.black, 0.5f * _cookingTime / _maxCookingTime);
+        }
+    }
+
+    public void Cut(int cuts)
+    {
+        _currentCuts += cuts;
+        if (_currentCuts > _neededCuts)
+        {
+            FoodCutTreating = CutTreating.Cut;
+            _image.sprite = food.IconCut;
         }
     }
 }

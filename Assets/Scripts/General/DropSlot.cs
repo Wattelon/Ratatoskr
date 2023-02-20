@@ -5,7 +5,7 @@ public class DropSlot : MonoBehaviour, IDropHandler
 {
     public void OnDrop(PointerEventData eventData)
     {
-        if (eventData.pointerDrag != null && transform.childCount < 3)
+        if (eventData.pointerDrag != null && eventData.pointerDrag.TryGetComponent(out Food _) && transform.childCount < 3)
         {
             eventData.pointerDrag.GetComponent<RectTransform>().SetParent(transform);
         }

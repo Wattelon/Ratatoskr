@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,8 +6,16 @@ using UnityEngine;
 public class RecipeSO : ScriptableObject
 {
     [SerializeField] private FoodSO dishType;
-    [SerializeField] private List<FoodType> ingredientsType;
+    [SerializeField] private List<Ingredient> ingredients;
 
     public FoodSO DishType => dishType;
-    public List<FoodType> IngredientsType => ingredientsType;
+    public List<Ingredient> Ingredients => ingredients;
+}
+
+[Serializable]
+public struct Ingredient
+{
+    public FoodType ingredientType;
+    public HeatTreating heatProcessing;
+    public CutTreating cutProcessing;
 }

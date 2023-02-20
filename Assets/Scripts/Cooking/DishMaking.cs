@@ -8,11 +8,14 @@ public class DishMaking : MonoBehaviour
     [SerializeField] private RecipeSO suitableRecipe;
     
     public FoodSO DishType { get; private set; }
-    public Processing FoodProcessing { get; private set; }
+    public HeatTreating FoodHeatTreating { get; private set; }
     
-    private List<FoodType> _ingredients = new List<FoodType>();
-    private List<Processing> _processings = new List<Processing>();
+    private List<FoodType> _ingredientsType = new List<FoodType>();
+    private List<HeatTreating> _heatTreatings = new List<HeatTreating>();
+    private List<CutTreating> _cutTreatings = new List<CutTreating>();
+    private List<Ingredient> _ingredients = new List<Ingredient>();
     private Transform _parent;
+    private Ingredient _ingredient;
     private int _ingredientsAmount;
 
     private void Start()
@@ -21,15 +24,21 @@ public class DishMaking : MonoBehaviour
         _ingredientsAmount = _parent.childCount - 2;
         for (int i = 0; i < _ingredientsAmount; i++)
         {
-            Transform ingredient = _parent.GetChild(0);
-            _ingredients.Add(ingredient.GetComponent<Food>().FoodType);
-            _processings.Add(ingredient.GetComponent<Food>().FoodProcessing);
-            ingredient.SetParent(transform);
-            ingredient.gameObject.SetActive(false);
+            Transform ingredientTransform = _parent.GetChild(0);
+            var food = ingredientTransform.GetComponent<Food>();
+            _ingredientsType.Add(food.FoodType);
+            _heatTreatings.Add(food.FoodHeatTreating);
+            _cutTreatings.Add(food.FoodCutTreating);
+                    _ingredient.ingredientType = food.FoodType;
+                    _ingredient.heatProcessing = food.FoodHeatTreating;
+                    _ingredient.cutProcessing = food.FoodCutTreating;
+                    _ingredients.Add(_ingredient);
+            ingredientTransform.SetParent(transform);
+            ingredientTransform.gameObject.SetActive(false);
         }
-        IdentifyRecipe(_ingredients);
+        IdentifyRecipe(_ingredientsType);
         DishType = suitableRecipe.DishType;
-        SetProcessingLevel(_processings);
+        SetProcessingLevel(_heatTreatings);
         gameObject.GetComponent<Food>().enabled = true;
     }
 
@@ -38,13 +47,13 @@ public class DishMaking : MonoBehaviour
         foreach (var recipe in availableRecipes)
         {
             bool isRightRecipe = true;
-            if (recipe.IngredientsType.Distinct().Count() != ingredients.Distinct().Count())
+            if (recipe.Ingredients.Distinct().Count() != ingredients.Distinct().Count())
             {
                 continue;
             }
             foreach (var ingredient in ingredients.Distinct())
             {
-                if (recipe.IngredientsType.Count(x => x == ingredient) != ingredients.Count(x => x == ingredient))
+                if (recipe.Ingredients.Count(x => x.ingredientType == ingredient) != ingredients.Count(x => x == ingredient))
                 {
                     isRightRecipe = false;
                     break;
@@ -58,23 +67,23 @@ public class DishMaking : MonoBehaviour
         }
     }
 
-    private void SetProcessingLevel(List<Processing> processing)
+    private void SetProcessingLevel(List<HeatTreating> processing)
     {
-        if (processing.Contains(Processing.Burned))
+        if (processing.Contains(HeatTreating.Burned))
         {
-            FoodProcessing = Processing.Burned;
+            FoodHeatTreating = HeatTreating.Burned;
         }
-        else if (processing.Contains(Processing.Raw))
+        else if (processing.Contains(HeatTreating.Raw))
         {
-            FoodProcessing = Processing.Raw;
+            FoodHeatTreating = HeatTreating.Raw;
         }
-        else if (processing.Contains(Processing.Cooked))
+        else if (processing.Contains(HeatTreating.Cooked))
         {
-            FoodProcessing = Processing.Cooked;
+            FoodHeatTreating = HeatTreating.Cooked;
         }
         else
         {
-            FoodProcessing = Processing.Perfect;
+            FoodHeatTreating = HeatTreating.Perfect;
         }
     }
 }

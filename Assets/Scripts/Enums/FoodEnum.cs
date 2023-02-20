@@ -4,5 +4,6 @@ public enum FoodType
     Bread,
     Tomato,
     Hamburger,
-    OddSoup
+    OddSoup,
+    Sandwich
 }
