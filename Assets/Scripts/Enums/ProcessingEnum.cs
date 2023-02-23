@@ -5,9 +5,3 @@ public enum HeatTreating
     Perfect,
     Burned
 }
-
-public enum CutTreating
-{
-    Intact,
-    Cut
-}

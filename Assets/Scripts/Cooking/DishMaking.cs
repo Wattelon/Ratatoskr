@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class DishMaking : MonoBehaviour
@@ -10,10 +10,8 @@ public class DishMaking : MonoBehaviour
     public FoodSO DishType { get; private set; }
     public HeatTreating FoodHeatTreating { get; private set; }
     
-    private List<FoodType> _ingredientsType = new List<FoodType>();
-    private List<HeatTreating> _heatTreatings = new List<HeatTreating>();
-    private List<CutTreating> _cutTreatings = new List<CutTreating>();
     private List<Ingredient> _ingredients = new List<Ingredient>();
+    private List<HeatTreating> _processing = new List<HeatTreating>();
     private Transform _parent;
     private Ingredient _ingredient;
     private int _ingredientsAmount;
@@ -25,40 +23,39 @@ public class DishMaking : MonoBehaviour
         for (int i = 0; i < _ingredientsAmount; i++)
         {
             Transform ingredientTransform = _parent.GetChild(0);
-            var food = ingredientTransform.GetComponent<Food>();
-            _ingredientsType.Add(food.FoodType);
-            _heatTreatings.Add(food.FoodHeatTreating);
-            _cutTreatings.Add(food.FoodCutTreating);
-                    _ingredient.ingredientType = food.FoodType;
-                    _ingredient.heatProcessing = food.FoodHeatTreating;
-                    _ingredient.cutProcessing = food.FoodCutTreating;
-                    _ingredients.Add(_ingredient);
+            Food food = ingredientTransform.GetComponent<Food>();
+            _ingredients.Add(new Ingredient(food.FoodType, Convert.ToBoolean(food.FoodHeatTreating), food.IsCut));
+            _processing.Add(food.FoodHeatTreating);
             ingredientTransform.SetParent(transform);
             ingredientTransform.gameObject.SetActive(false);
         }
-        IdentifyRecipe(_ingredientsType);
+        IdentifyRecipe(_ingredients);
         DishType = suitableRecipe.DishType;
-        SetProcessingLevel(_heatTreatings);
+        SetProcessingLevel(_processing);
         gameObject.GetComponent<Food>().enabled = true;
     }
 
-    private void IdentifyRecipe(List<FoodType> ingredients)
+    private void IdentifyRecipe(List<Ingredient> ingredients)
     {
+        List<Ingredient> neededIngredients = new List<Ingredient>();
         foreach (var recipe in availableRecipes)
         {
             bool isRightRecipe = true;
-            if (recipe.Ingredients.Distinct().Count() != ingredients.Distinct().Count())
+            neededIngredients.Clear();
+            neededIngredients.AddRange(recipe.Ingredients);
+            foreach (var ingredient in ingredients)
             {
-                continue;
-            }
-            foreach (var ingredient in ingredients.Distinct())
-            {
-                if (recipe.Ingredients.Count(x => x.ingredientType == ingredient) != ingredients.Count(x => x == ingredient))
+                if (neededIngredients.Contains(ingredient))
+                {
+                    neededIngredients.Remove(ingredient);
+                }
+                else
                 {
                     isRightRecipe = false;
                     break;
                 }
             }
+
             if (isRightRecipe)
             {
                 suitableRecipe = recipe;
@@ -72,10 +69,6 @@ public class DishMaking : MonoBehaviour
         if (processing.Contains(HeatTreating.Burned))
         {
             FoodHeatTreating = HeatTreating.Burned;
-        }
-        else if (processing.Contains(HeatTreating.Raw))
-        {
-            FoodHeatTreating = HeatTreating.Raw;
         }
         else if (processing.Contains(HeatTreating.Cooked))
         {

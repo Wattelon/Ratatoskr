@@ -9,7 +9,7 @@ public class Food : MonoBehaviour
     public int Price { get; private set; }
     public HeatTreating FoodHeatTreating { get; private set; } = HeatTreating.Raw;
     public bool HeatTreatable { get; private set; }
-    public CutTreating FoodCutTreating { get; private set; } = CutTreating.Intact;
+    public bool IsCut { get; private set; }
     public bool Cutable { get; private set;  }
 
     private Image _image;
@@ -78,7 +78,7 @@ public class Food : MonoBehaviour
         _currentCuts += cuts;
         if (_currentCuts > _neededCuts)
         {
-            FoodCutTreating = CutTreating.Cut;
+            IsCut = true;
             _image.sprite = food.IconCut;
         }
     }

@@ -1,4 +1,4 @@
-public enum Reaction
+public enum Estimation
 {
     Bad,
     Good,

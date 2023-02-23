@@ -15,7 +15,6 @@ MonoBehaviour:
   possibleOrders:
   - {fileID: 11400000, guid: 782b42715b4c0964ca4f8878aefaeb66, type: 2}
   - {fileID: 11400000, guid: 79f8a56723a107d4593733babe40cff7, type: 2}
-  - {fileID: 11400000, guid: 2dcac40f38f33c64bb0a07adf648806a, type: 2}
   appearance:
   - {fileID: 21300000, guid: df3bf8e4dcadfd744ba9acfed25a9500, type: 3}
   - {fileID: 21300000, guid: e1e407be0ff012b48bf5af169b6499cb, type: 3}

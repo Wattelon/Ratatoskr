@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dishType: {fileID: 11400000, guid: 25352b6434beb244b8e02d380b2dc9cd, type: 2}
   ingredients:
-  - ingredientType: 1
-    heatProcessing: 0
-    cutProcessing: 0
-  - ingredientType: 0
-    heatProcessing: 1
-    cutProcessing: 0
+  - IngredientType: 1
+    IsCooked: 0
+    IsCut: 1
+  - IngredientType: 0
+    IsCooked: 1
+    IsCut: 0

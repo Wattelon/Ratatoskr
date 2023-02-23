@@ -15,7 +15,14 @@ public class RecipeSO : ScriptableObject
 [Serializable]
 public struct Ingredient
 {
-    public FoodType ingredientType;
-    public HeatTreating heatProcessing;
-    public CutTreating cutProcessing;
+    public FoodType IngredientType;
+    public bool IsCooked;
+    public bool IsCut;
+
+    public Ingredient(FoodType ingredientType, bool isCooked, bool isCut)
+    {
+        IngredientType = ingredientType;
+        IsCooked = isCooked;
+        IsCut = isCut;
+    }
 }

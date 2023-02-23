@@ -24,6 +24,8 @@ public class Customer : MonoBehaviour, IDropHandler
 
     public CustomerSO CurCustomer;
     public FoodSO CurOrder { get; private set; }
+    public bool IsOrderCut { get; private set; }
+    public bool IsOrderCooked { get; private set; }
 
     private void Awake()
     {
@@ -33,6 +35,14 @@ public class Customer : MonoBehaviour, IDropHandler
     private void Start()
     {
         CurOrder = CurCustomer.Order;
+        if (CurOrder.Cutable)
+        {
+            IsOrderCut = Random.Range(0, 5) > 0;
+        }
+        if (CurOrder.HeatTreatable)
+        {
+            IsOrderCooked = Random.Range(0, 5) > 0;
+        }
         transform.parent.GetComponent<LevelEnd>().AddMaxGain(CurOrder.Price);
         _image.sprite = CurCustomer.CustomerSprite;
         _revenueCounter = FindObjectOfType<Revenue>();
@@ -53,7 +63,7 @@ public class Customer : MonoBehaviour, IDropHandler
             if (_curWaitingTime > waitingTime)
             {
                 _image.raycastTarget = false;
-                Leave(Reaction.Bad, 0);
+                Leave(Estimation.Bad, 0);
             }
         }
     }
@@ -67,35 +77,46 @@ public class Customer : MonoBehaviour, IDropHandler
     private void AssessFood(Food food)
     {
         _image.raycastTarget = false;
-        if (food.FoodType == CurOrder.FoodType)
+        if (food.FoodType == CurOrder.FoodType && food.IsCut == IsOrderCut)
         {
-            if (food.FoodHeatTreating is HeatTreating.Raw or HeatTreating.Burned)
+            if (IsOrderCooked)
             {
-                Leave(Reaction.Bad, food.Price);
+                if (food.FoodHeatTreating is HeatTreating.Raw or HeatTreating.Burned)
+                {
+                    Leave(Estimation.Bad, food.Price);
+                }
+                else if (food.FoodHeatTreating == HeatTreating.Cooked)
+                {
+                    Leave(Estimation.Good, food.Price);
+                }
+                else if (food.FoodHeatTreating == HeatTreating.Perfect)
+                {
+                    Leave(Estimation.Perfect, food.Price);
+                }
             }
-            else if (food.FoodHeatTreating == HeatTreating.Cooked)
+            else if (food.FoodHeatTreating == HeatTreating.Raw)
             {
-                Leave(Reaction.Good, food.Price);
+                Leave(Estimation.Perfect, food.Price);
             }
-            else if (food.FoodHeatTreating == HeatTreating.Perfect)
+            else
             {
-                Leave(Reaction.Perfect, food.Price);
+                Leave(Estimation.Bad, food.Price);
             }
             Destroy(food.gameObject);
         }
         else
         {
             Destroy(food.gameObject);
-            Leave(Reaction.Bad, food.Price);
+            Leave(Estimation.Bad, food.Price);
         }
     }
 
-    private void Leave(Reaction reaction, int price)
+    private void Leave(Estimation estimation, int price)
     {
-        _currentOrder.GetComponent<Image>().color = orderBubbleColors[(int)reaction];
+        _currentOrder.GetComponent<Image>().color = orderBubbleColors[(int)estimation];
         _currentOrder.transform.GetChild(0).GetComponent<Image>().enabled = false;
-        _revenueCounter.EarnGold(price * (int)reaction);
-        _currentOrder.GetComponentInChildren<TextMeshProUGUI>().text = reactions[(int)reaction];
+        _revenueCounter.EarnGold(price * (int)estimation);
+        _currentOrder.GetComponentInChildren<TextMeshProUGUI>().text = reactions[(int)estimation];
         _isOrderTaken = true;
         transform.DOMoveX(-300, 1.99f);
         Destroy(gameObject, 2f);
