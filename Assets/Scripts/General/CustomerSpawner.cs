@@ -14,6 +14,7 @@ public class CustomerSpawner : MonoBehaviour
     private List<CustomerSO> _possibleCustomers = new List<CustomerSO>();
     private Vector3 _customerSpawnPosition;
     private int _levelID;
+    private bool _levelEnded;
 
     private void Start()
     {
@@ -28,9 +29,10 @@ public class CustomerSpawner : MonoBehaviour
         {
             SpawnCustomer();
         }
-        else if (transform.childCount == 0 && _possibleCustomers.Count == 0)
+        else if (transform.childCount == 0 && _possibleCustomers.Count == 0 && !_levelEnded)
         {
             levelEnd.EndLevel();
+            _levelEnded = true;
         }
     }
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -11,8 +10,12 @@ public class LevelEnd : MonoBehaviour
     [SerializeField] private Image performanceVisualizer;
     [SerializeField] private List<string> performancePhrases;
     [SerializeField] private TextMeshProUGUI endingTitle;
+    [SerializeField] private TextMeshProUGUI earned;
+    [SerializeField] private TextMeshProUGUI expenses;
+    [SerializeField] private TextMeshProUGUI revenue;
+    [SerializeField] private Gold goldCounter;
 
-    private int _maxGain = 0;
+    private int _maxGain;
     
     public void AddMaxGain(int price)
     {
@@ -22,7 +25,10 @@ public class LevelEnd : MonoBehaviour
     public void EndLevel()
     {
         endingScreen.SetActive(true);
-        int actualGain = Int32.Parse(FindObjectOfType<Revenue>().GetComponent<TextMeshProUGUI>().text);
+        earned.text += goldCounter.EarnedGold;
+        expenses.text += goldCounter.Expenses;
+        revenue.text += goldCounter.Revenue;
+        int actualGain = goldCounter.EarnedGold;
         float rating = (float)actualGain / _maxGain;
         AssessPerformance(rating);
     }

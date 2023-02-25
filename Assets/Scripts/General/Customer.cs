@@ -14,7 +14,7 @@ public class Customer : MonoBehaviour, IDropHandler
 
     private Image _image;
     private GameObject _currentOrder;
-    private Revenue _revenueCounter;
+    private Gold _goldCounter;
     private int _revenue;
     private int _orderIndex;
     private bool _isOnTargetOffset;
@@ -45,7 +45,7 @@ public class Customer : MonoBehaviour, IDropHandler
         }
         transform.parent.GetComponent<LevelEnd>().AddMaxGain(CurOrder.Price);
         _image.sprite = CurCustomer.CustomerSprite;
-        _revenueCounter = FindObjectOfType<Revenue>();
+        _goldCounter = FindObjectOfType<Gold>();
         transform.DOMoveX(transform.parent.position.x, 2);
     }
 
@@ -115,7 +115,7 @@ public class Customer : MonoBehaviour, IDropHandler
     {
         _currentOrder.GetComponent<Image>().color = orderBubbleColors[(int)estimation];
         _currentOrder.transform.GetChild(0).GetComponent<Image>().enabled = false;
-        _revenueCounter.EarnGold(price * (int)estimation);
+        _goldCounter.EarnGold(price * (int)estimation);
         _currentOrder.GetComponentInChildren<TextMeshProUGUI>().text = reactions[(int)estimation];
         _isOrderTaken = true;
         transform.DOMoveX(-300, 1.99f);
