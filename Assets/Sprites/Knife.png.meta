@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: dfd323beb0d371c4c91bd254665a5924
+guid: 021c2d1a659c4964f873c75b085b90a1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,13 +105,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Cutting board_0
+      name: Knife_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 71
-        width: 501
-        height: 369
+        x: 32
+        y: 130
+        width: 945
+        height: 262
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -119,8 +119,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f196e3e88c682554b9602025d9fc41e3
-      internalID: 1279368617
+      spriteID: 820e91616dd2cae4fa45c5f589930098
+      internalID: 767119821
       vertices: []
       indices: 
       edges: []
@@ -136,7 +136,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Cutting board_0: 1279368617
+      Knife_0: 767119821
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

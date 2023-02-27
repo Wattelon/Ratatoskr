@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34934eda0eefdd64fb00955eb9f20cd5, type: 3}
-  m_Name: Hamburger
+  m_Name: Apple
   m_EditorClassIdentifier: 
-  foodType: 3
-  icon: {fileID: 21300000, guid: f5fb22acc51a83e4fa752d5ed0600f33, type: 3}
-  iconCut: {fileID: 0}
-  price: 5
-  maxCookingTime: 0
-  heatTreatable: 0
-  cutable: 0
+  foodType: 2
+  icon: {fileID: 21300000, guid: deae56da896b7ee49a9df4c46f20af02, type: 3}
+  iconCut: {fileID: 21300000, guid: 97e2bc1a1d8db5e418ee23f84f8cb059, type: 3}
+  price: 2
+  neededCuts: 2
+  maxCookingTime: 3
+  heatTreatable: 1
+  cutable: 1

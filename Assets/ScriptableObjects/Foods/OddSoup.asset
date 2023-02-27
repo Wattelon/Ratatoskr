@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: OddSoup
   m_EditorClassIdentifier: 
   foodType: 4
-  icon: {fileID: 21300000, guid: 35776f600f2599143853b3270fde11d9, type: 3}
+  icon: {fileID: 21300000, guid: 359d72e7a67a0bc40aefaf73ebaeac38, type: 3}
   iconCut: {fileID: 0}
-  price: 3
+  price: 0
+  neededCuts: 0
   maxCookingTime: 0
   heatTreatable: 0
   cutable: 0

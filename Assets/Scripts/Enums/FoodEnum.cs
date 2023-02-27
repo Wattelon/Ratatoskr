@@ -1,9 +1,9 @@
 public enum FoodType
 {
-    Chicken,
+    Barley,
     Bread,
-    Tomato,
-    Hamburger,
-    OddSoup,
-    Sandwich
+    Apple,
+    BarleyPorridge,
+    BarleyApplePorridge,
+    OddSoup
 }

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34934eda0eefdd64fb00955eb9f20cd5, type: 3}
-  m_Name: Sandwich
+  m_Name: Barley
   m_EditorClassIdentifier: 
-  foodType: 5
-  icon: {fileID: 21300000, guid: 64180ee120a75bf41a576e506d79ba5d, type: 3}
+  foodType: 0
+  icon: {fileID: 21300000, guid: 8a2e51a1a0ebebd4a8e1516caf37b98f, type: 3}
   iconCut: {fileID: 0}
-  price: 12
+  price: 0
   neededCuts: 0
-  maxCookingTime: 0
-  heatTreatable: 0
+  maxCookingTime: 10
+  heatTreatable: 1
   cutable: 0

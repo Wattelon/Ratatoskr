@@ -77,12 +77,14 @@ public class Customer : MonoBehaviour, IDropHandler
     private void AssessFood(Food food)
     {
         _image.raycastTarget = false;
+        Debug.Log(food.FoodType);
         if (food.FoodType == CurOrder.FoodType && food.IsCut == IsOrderCut)
         {
-            if (IsOrderCooked)
+            if (IsOrderCooked || food.TryGetComponent(out DishMaking _))
             {
                 if (food.FoodHeatTreating is HeatTreating.Raw or HeatTreating.Burned)
                 {
+                    Debug.Log(food.FoodHeatTreating);
                     Leave(Estimation.Bad, food.Price);
                 }
                 else if (food.FoodHeatTreating == HeatTreating.Cooked)
@@ -100,12 +102,14 @@ public class Customer : MonoBehaviour, IDropHandler
             }
             else
             {
+                Debug.Log(food.FoodHeatTreating);
                 Leave(Estimation.Bad, food.Price);
             }
             Destroy(food.gameObject);
         }
         else
         {
+            Debug.Log(CurOrder.FoodType);
             Destroy(food.gameObject);
             Leave(Estimation.Bad, food.Price);
         }
