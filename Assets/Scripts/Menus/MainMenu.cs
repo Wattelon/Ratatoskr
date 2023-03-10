@@ -2,12 +2,12 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI goldCounter;
     [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private GameObject notesMenu;
     [SerializeField] private Animator fadeOut;
     [SerializeField] private Animator fadeIn;
 
@@ -26,6 +26,12 @@ public class MainMenu : MonoBehaviour
     {
         gameObject.SetActive(false);
         settingsMenu.SetActive(true);
+    }
+
+    public void OnNotesClick()
+    {
+        gameObject.SetActive(false);
+        notesMenu.SetActive(true);
     }
 
     public void OnQuitClick()

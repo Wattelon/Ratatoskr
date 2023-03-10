@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Dish", menuName = "Scriptable Objects/Dish", order = 51)]
+[CreateAssetMenu(fileName = "New Recipe", menuName = "Scriptable Objects/Recipe", order = 51)]
 public class RecipeSO : ScriptableObject
 {
     [SerializeField] private FoodSO dishType;
